@@ -2,7 +2,7 @@
 	<div class="home texture_light p_4" style="height:100vh;">
 		<div class="grid-x">
 			<div class="cell small-12 medium-10 large-8 m_auto" style="max-width:54em">
-				<div>
+				<div @click="onModeChange('login')">
 					<h1 class="logo-lockup p-b_3">
 						<img src="assets/img/mobileLogo.svg" alt="American College of Cardiology" class="logo p-r_3">
 						<span class="text">Customer &nbsp;
@@ -19,7 +19,8 @@
 					>
 						<transition name="crossFade" mode="out-in">
 							<span v-if=" mode == 'login'">Login</span>
-							<span v-if="mode == 'resetStart'">Password Reset</span>
+							<span v-if="mode == 'resetPassword_start'">Password Reset</span>
+							<span v-if="mode == 'resetUsername_start'">Username Reset</span>
 						</transition>
 					</div>
 					<div class="card-section relative">
@@ -45,6 +46,10 @@
 												:hint="''"
 												v-on:update:username="username = $event"
 											></inputUsername>
+											<div
+												class="hover:underline float-right m-t_3 m-t_0:medium"
+												@click="onModeChange('resetUsername_start')"
+											>forgot username</div>
 										</div>
 										<div class="medium-6 cell">
 											<inputPassword
@@ -58,8 +63,8 @@
 											></inputPassword>
 											<div
 												class="hover:underline float-right m-t_3 m-t_0:medium"
-												@click="onModeChange('resetStart')"
-											>reset my password</div>
+												@click="onModeChange('resetPassword_start')"
+											>forgot password</div>
 										</div>
 									</div>
 								</form>
@@ -86,7 +91,7 @@
 									</div>
 								</div>
 							</div>
-							<div v-if="mode == 'resetStart'" key="start">
+							<div v-if="mode == 'resetPassword_start'" key="start">
 								<form class="grid-container m_auto" style="max-width:35em;">
 									<div class="grid-x">
 										<div class="cell auto">
@@ -115,6 +120,41 @@
 													class="text-center hover:bg_secondary-5 font_0 underline hover:none c_primary center p-x_5 p-y_2 br_radius"
 												>go back to login</li>
 											</ul>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div v-if="mode == 'resetUsername_start'" key="start">
+								<form class="grid-container m_auto" style="max-width:35em;">
+									<div class="grid-x">
+										<div class="cell small_12">
+											<p class="font_1">Enter your email address and we will email you your username.</p>
+										</div>
+										<div class="cell small_12">
+											<inputUsername
+												class="m-t_2 m-t_0:medium"
+												:label="'Email'"
+												:required="true"
+												:pageHasError="pageHasError()"
+												:value="usernameResetEmail"
+												:hint="''"
+												v-on:update:username="username = $event"
+											></inputUsername>
+											<div class="grid-x grid-margin-x">
+												<div @click="onModeChange('login')" class="medium-8 cell m-t_4 m-t_2:medium">
+													<a class="button secondary m-b_0 br_radius expanded br_radius">
+														Log In
+														<i class="fal fa-ban"></i>
+													</a>
+												</div>
+												<div class="medium-4 cell m-t_4 m-t_2:medium">
+													<a class="button display-block color_white m-b_0 br_radius expanded disabled">
+														Log In
+														<i class="fal fa-ban"></i>
+													</a>
+													<!---->
+												</div>
+											</div>
 										</div>
 									</div>
 								</form>
@@ -150,6 +190,7 @@ export default {
 		return {
 			username: "",
 			password: "",
+			usernameResetEmail: "",
 			pageError: "",
 			mode: "login"
 		};
