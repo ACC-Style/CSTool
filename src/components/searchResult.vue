@@ -2,12 +2,14 @@
 	<div class="grid-y">
 		<div
 			class="searchResults result card shadow_2 m_3 br_secondary-3"
-			v-bind:class="{ selectable: selectable }"
+			v-bind:class="{ 'selectable bg_warning-4 br_warning br_solid br_2': selectable }"
 		>
-			<div class="select-container bg_acc" @click="select_toggle">
-				<div class="p_3">
-					<i v-if="!selected" class="far fa-circle c_white"></i>
-					<i v-if="selected" class="fas fa-check-circle c_white"></i>
+			<div class="select-container bg_warning-n3" @click="select_toggle">
+				<div class="p_3 relative">
+					<i class="far fa-circle c_white fa-crown"></i>
+					<div v-if="selectable" class="c_white nowrap relative t_4 r_0 font_bold">
+						<span class="turn90 absolute" style="bottom: -4.5rem; left: -3.5rem;">Primary Account</span>
+					</div>
 				</div>
 			</div>
 			<div class="detail-container grid-frame">
@@ -46,42 +48,44 @@
 								<li
 									class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6 d_block:sm d_none:md"
 								>
-									<div v-if="hasMembership">
-										<i class="m-l_3 m-r_3 c_secondary-2 fal fa-user-md"></i>
-										{{memberType}}
+									<div class="grid-x grid-frame">
+										<div class="cell shrink">
+											<itemDetail
+												:label="'member'"
+												:detailData="memberTypeComputed"
+												:icon="{'fa-user-md':hasMembership,'fa-user-slash':!hasMembership}"
+												:editable="false"
+											></itemDetail>
+										</div>
+										<div class="cell shrink p-r_3">
+											<itemDetail
+												:label="'personify id'"
+												:detailData="personifyNumber"
+												:icon="'fa-hashtag'"
+												:editable="false"
+											></itemDetail>
+										</div>
 									</div>
-									<div v-if="!hasMembership">
-										<i class="m-l_3 m-r_3 c_secondary-2 fal fa-user-slash"></i> NPI
-									</div>
-								</li>
-								<li
-									class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6 d_block:sm d_none:md"
-								>
-									<i class="m-l_3 m-r_3 c_secondary-2 fal fa-hashtag"></i>
-									{{personifyNumber}}
 								</li>
 								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-r_0 cell small-12 large-6 grid-x">
-									<div class="cell shrink p_1 p-t_2">
-										<i class="m-l_3 m-r_3 c_secondary-2 fal fa-user-circle font_4:md font_2"></i>
-									</div>
-									<div class="cell auto lh_1">
-										<div class="c_secondary-3 font_n2 d_none d_inline-block:md">username</div>
-										<div class="c_secondary-n4 font_1 font_2:md m-t_3 m-t_0:md overflow-ellipsis">{{userName}}</div>
-									</div>
-
-									<div class="cell shrink">
-										<a
-											href="#"
-											class="link p-t_2 p-r_3 p_1 font_1 font_3:md"
-											@click="$emit('open-username-reveal')"
-										>
-											<i class="fal fa-pencil"></i>
-										</a>
-									</div>
+									<itemDetail
+										:label="'username'"
+										:detailData="userName"
+										:icon="'fa-user-circle'"
+										:editable="true"
+										v-on:emitBasic="function(){$emit('open-username-reveal')}"
+									></itemDetail>
 								</li>
 
 								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-r_0 cell small-12 large-6 grid-x">
-									<div class="cell shrink p_1 p-t_2">
+									<itemDetail
+										:label="'email'"
+										:detailData="emailAddress"
+										:icon="'fa-envelope-open-text'"
+										:editable="true"
+										v-on:emitBasic="function(){$emit('open-email-reveal')}"
+									></itemDetail>
+									<!-- <div class="cell shrink p_1 p-t_2">
 										<i class="m-l_3 m-r_3 c_secondary-2 fal fa-envelope-open-text font_4:md font_2"></i>
 									</div>
 									<div class="cell auto lh_1">
@@ -97,40 +101,35 @@
 										<a @click="$emit('open-email-reveal')" class="link p-t_2 p-r_3 p_1 font_1 font_3:md">
 											<i class="fal fa-pencil"></i>
 										</a>
-									</div>
+									</div>-->
 								</li>
 								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-r_0 cell small-12 large-6 grid-x">
-									<div class="cell shrink p_1 p-t_2">
-										<i class="m-l_3 m-r_3 c_secondary-2 fal fa-key font_4:md font_2"></i>
-									</div>
-									<div class="cell auto lh_1">
-										<div class="c_secondary-3 font_n2 d_none d_inline-block:md">password</div>
-										<div class="c_secondary-n4 font_1 font_2:md m-t_3 m-t_0:md">
-											<span v-if="password !=''">{{password}}</span>
-											<span v-if="password==''">******</span>
-										</div>
-									</div>
-									<div class="cell shrink">
-										<a
-											href="#"
-											class="link p-t_2 p-r_3 p_1 font_1 font_3:md"
-											@click="$emit('open-password-reveal')"
-										>
-											<i class="fal fa-pencil"></i>
-										</a>
-									</div>
+									<itemDetail
+										:label="'password'"
+										:detailData="password"
+										:icon="'fa-key'"
+										:editable="true"
+										v-on:emitBasic="function(){$emit('open-password-reveal')}"
+										:mask="true"
+									></itemDetail>
 								</li>
 
 								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6">
-									<i class="m-l_3 m-r_3 c_secondary-2 fal fa-map-pin"></i>
-									{{location}}
+									<itemDetail
+										:label="'address'"
+										:detailData="location"
+										:icon="'fa-map-pin'"
+										:editable="false"
+									></itemDetail>
 								</li>
 								<li v-if="hasBadge" class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6">
-									<i class="m-l_3 m-r_3 c_secondary-2 fal fa-badge-check"></i>
-									{{badgeNumber}}
-									<a href class="link float-right p_2">
-										<i class="fal fa-exchange-alt"></i>
-									</a>
+									<itemDetail
+										:label="'badge'"
+										:detailData="badgeNumber"
+										:icon="'fa-badge-check'"
+										:editable="true"
+										v-on:emitBasic="function(){$emit('open-badge-reveal')}"
+									></itemDetail>
 								</li>
 							</ul>
 						</div>
@@ -153,6 +152,7 @@
 					</div>
 					<div
 						class="cell shrink texture_light bg_secondary-3 m-r_3 c_secondary-1 font_n2 font_n1:md font_0:lg"
+						v-bind:class="{ 'bg_warning-n3': selectable }"
 					>
 						<ul class="flag no-bullet flex flex-dir-column">
 							<li class="p_3 center member" v-bind:class="{ active: hasMembership }">
@@ -196,11 +196,13 @@
 </template>
 <script>
 import linkedResult from "@/components/linkedResult.vue";
+import itemDetail from "@/components/subComponents/itemDetail.vue";
 
 export default {
 	name: "searchResults",
 	components: {
-		linkedResult
+		linkedResult,
+		itemDetail
 	},
 	props: {
 		member: Object,
@@ -235,6 +237,13 @@ export default {
 		},
 		hasExpoBadge: function() {
 			return this.expoBadge;
+		},
+		memberTypeComputed: function() {
+			if (this.memberType == "") {
+				return "NPI";
+			} else {
+				return this.memberType;
+			}
 		}
 	},
 	data() {
@@ -263,6 +272,9 @@ export default {
 };
 </script>
 <style lang="scss">
+.turn90 {
+	transform: rotate(90deg);
+}
 .slideIn-enter-active,
 .slideIn-leave-active {
 	transition: transform 0.5s ease, opacity 0.25s ease 0.25s;
