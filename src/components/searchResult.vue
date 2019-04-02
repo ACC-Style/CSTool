@@ -10,7 +10,7 @@
 					<i v-if="selected" class="fas fa-check-circle c_white"></i>
 				</div>
 			</div>
-			<div class="detail-container">
+			<div class="detail-container grid-frame">
 				<div class="grid-x">
 					<div class="cell auto">
 						<div
@@ -86,7 +86,7 @@
 									</div>
 									<div class="cell auto lh_1">
 										<div class="c_secondary-3 font_n2 d_none d_inline-block:md">email</div>
-										<div class="c_secondary-n4 font_1 font_2:md m-t_3 m-t_0:md">
+										<div class="c_secondary-n4 font_1 font_2:md m-t_3 m-t_0:md overflow-ellipsis">
 											{{emailAddress}}
 											<span class="c_alert" v-if="emailAddress == ''">
 												<i class="fas fa-exclamation-square"></i> account must have an email
