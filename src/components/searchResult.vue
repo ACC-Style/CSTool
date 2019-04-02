@@ -13,7 +13,9 @@
 			<div class="detail-container">
 				<div class="grid-x">
 					<div class="cell auto">
-						<div class="member-name font_1 font_slab line-height_2 member-name p_3 p-l_4 p-r_3">
+						<div
+							class="member-name font_1 font_2:md font_3:lg font_slab line-height_2 member-name p_3 p-l_4 p-r_3"
+						>
 							{{fullName}}
 							<a
 								@click="$emit('share-record')"
@@ -22,9 +24,28 @@
 								<i class="fas fa-share-alt-square"></i>
 							</a>
 						</div>
+						<div
+							class="d_block:md d_none font_n1 c_primary-n2 font_bold p-l_2 m-t_n4 grid-condtainer br-b_1 br_secondary-3 br_solid"
+						>
+							<div class="p_2 grid-x">
+								<div class="cell shrink" v-if="hasMembership">
+									<i class="m-l_3 m-r_3 c_primary-1 fas fa-user-md"></i>
+									{{memberType}}
+								</div>
+								<div class="cell shrink" v-if="!hasMembership">
+									<i class="m-l_3 m-r_3 c_primary-1 fas fa-user-slash"></i> NPI
+								</div>
+								<div class="cell auto p-l_2 br-l_2 br_secondary-5 br_solid m-l_3">
+									<i class="m-l_3 m-r_3 c_primary-1 fas fa-hashtag"></i>
+									{{personifyNumber}}
+								</div>
+							</div>
+						</div>
 						<div class>
-							<ul class="details no-bullet p-l_3 p-r_3 m-b_0 font_0 grid-x grid-margin-x">
-								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6">
+							<ul class="details no-bullet p-l_3 p-r_3 m-b_0 font_0 grid-x grid-margin-x m-t_3:lg">
+								<li
+									class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6 d_block:sm d_none:md"
+								>
 									<div v-if="hasMembership">
 										<i class="m-l_3 m-r_3 c_secondary-2 fal fa-user-md"></i>
 										{{memberType}}
@@ -33,20 +54,73 @@
 										<i class="m-l_3 m-r_3 c_secondary-2 fal fa-user-slash"></i> NPI
 									</div>
 								</li>
-								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6">
+								<li
+									class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6 d_block:sm d_none:md"
+								>
 									<i class="m-l_3 m-r_3 c_secondary-2 fal fa-hashtag"></i>
 									{{personifyNumber}}
 								</li>
-								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6">
-									<i class="m-l_3 m-r_3 c_secondary-2 fal fa-at"></i>
-									{{emailAddress}}
-									<span class="c_alert" v-if="emailAddress == ''">
-										<i class="fas fa-exclamation-square"></i> account must have an email
-									</span>
-									<a @click="$emit('open-email-reveal')" class="link float-right p_2">
-										<i class="fal fa-pencil"></i>
-									</a>
+								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-r_0 cell small-12 large-6 grid-x">
+									<div class="cell shrink p_1 p-t_2">
+										<i class="m-l_3 m-r_3 c_secondary-2 fal fa-user-circle font_4:md font_2"></i>
+									</div>
+									<div class="cell auto lh_1">
+										<div class="c_secondary-3 font_n2 d_none d_inline-block:md">username</div>
+										<div class="c_secondary-n4 font_1 font_2:md m-t_3 m-t_0:md">{{userName}}</div>
+									</div>
+
+									<div class="cell shrink">
+										<a
+											href="#"
+											class="link p-t_2 p-r_3 p_1 font_1 font_3:md"
+											@click="$emit('open-username-reveal')"
+										>
+											<i class="fal fa-pencil"></i>
+										</a>
+									</div>
 								</li>
+
+								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-r_0 cell small-12 large-6 grid-x">
+									<div class="cell shrink p_1 p-t_2">
+										<i class="m-l_3 m-r_3 c_secondary-2 fal fa-envelope-open-text font_4:md font_2"></i>
+									</div>
+									<div class="cell auto lh_1">
+										<div class="c_secondary-3 font_n2 d_none d_inline-block:md">email</div>
+										<div class="c_secondary-n4 font_1 font_2:md m-t_3 m-t_0:md">
+											{{emailAddress}}
+											<span class="c_alert" v-if="emailAddress == ''">
+												<i class="fas fa-exclamation-square"></i> account must have an email
+											</span>
+										</div>
+									</div>
+									<div class="cell shrink">
+										<a @click="$emit('open-email-reveal')" class="link p-t_2 p-r_3 p_1 font_1 font_3:md">
+											<i class="fal fa-pencil"></i>
+										</a>
+									</div>
+								</li>
+								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-r_0 cell small-12 large-6 grid-x">
+									<div class="cell shrink p_1 p-t_2">
+										<i class="m-l_3 m-r_3 c_secondary-2 fal fa-key font_4:md font_2"></i>
+									</div>
+									<div class="cell auto lh_1">
+										<div class="c_secondary-3 font_n2 d_none d_inline-block:md">password</div>
+										<div class="c_secondary-n4 font_1 font_2:md m-t_3 m-t_0:md">
+											<span v-if="password !=''">{{password}}</span>
+											<span v-if="password==''">******</span>
+										</div>
+									</div>
+									<div class="cell shrink">
+										<a
+											href="#"
+											class="link p-t_2 p-r_3 p_1 font_1 font_3:md"
+											@click="$emit('open-password-reveal')"
+										>
+											<i class="fal fa-pencil"></i>
+										</a>
+									</div>
+								</li>
+
 								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6">
 									<i class="m-l_3 m-r_3 c_secondary-2 fal fa-map-pin"></i>
 									{{location}}
@@ -56,27 +130,6 @@
 									{{badgeNumber}}
 									<a href class="link float-right p_2">
 										<i class="fal fa-exchange-alt"></i>
-									</a>
-								</li>
-								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6">
-									<i class="m-l_3 m-r_3 c_secondary-2 fal fa-user-circle"></i>
-									{{userName}}
-									<a
-										href="#"
-										class="link float-right p_2"
-										@click="$emit('open-username-reveal')"
-									>
-										<i class="fal fa-pencil"></i>
-									</a>
-								</li>
-								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6">
-									<i class="m-l_3 m-r_3 c_secondary-2 fal fa-key"></i>
-									{{password}}
-									<span v-if="password==''">******</span>
-									<a href="#" class="link float-right p_2">
-										<a href="#" class="link float-right p_2" @click="$emit('open-password-reveal')">
-											<i class="fal fa-pencil"></i>
-										</a>
 									</a>
 								</li>
 							</ul>
@@ -92,13 +145,16 @@
 								<i v-if="!showChildren" class="fas fa-chevron-circle-r p-r_3"></i>
 								{{children.length}} linked account(s)
 							</a>
-							<a @click="selectable_toggle" class="link float-right m-l_3 m-r_3 flex-1">manage &nbsp;
+							<a @click="selectable_toggle" class="link float-right m-l_3 m-r_3 flex-1">
+								manage &nbsp;
 								<i class="fal fa-pencil"></i>
 							</a>
 						</div>
 					</div>
-					<div class="cell shrink texture_light bg_secondary-3 m-r_3 c_secondary-1 font_n2">
-						<ul class="flag no-bullet">
+					<div
+						class="cell shrink texture_light bg_secondary-3 m-r_3 c_secondary-1 font_n2 font_n1:md font_0:lg"
+					>
+						<ul class="flag no-bullet flex flex-dir-column">
 							<li class="p_3 center member" v-bind:class="{ active: hasMembership }">
 								<i class="fal fa-user-md"></i>
 							</li>
@@ -142,187 +198,187 @@
 import linkedResult from "@/components/linkedResult.vue";
 
 export default {
-  name: "searchResults",
-  components: {
-    linkedResult
-  },
-  props: {
-    member: Object,
-    fullName: String,
-    personifyNumber: Number,
-    badgeNumber: { type: Number, default: -1 },
-    emailAddress: { type: String, default: "" },
-    location: String,
-    userName: String,
-    password: String,
-    memberType: { type: String, default: "NPI" },
-    iscienceBadge: { type: Number, default: -1 },
-    bruteForceLock: { type: Boolean, default: false },
-    expoBadge: { type: Boolean, default: false },
-    children: { type: Array, default: undefined }
-  },
-  computed: {
-    hasMembership: function() {
-      if (this.memberType != "" && this.memberType != "NPI") {
-        return true;
-      }
-      return false;
-    },
-    hasBadge: function() {
-      return this.badgeNumber == -1 ? false : true;
-    },
-    hasIScience: function() {
-      return this.iscienceBadge == -1 ? false : true;
-    },
-    hasBruteForceLock: function() {
-      return this.bruteForceLock;
-    },
-    hasExpoBadge: function() {
-      return this.expoBadge;
-    }
-  },
-  data() {
-    return {
-      selectable: false,
-      selected: true,
-      showChildren: false
-    };
-  },
-  methods: {
-    set_selectable: function($set) {
-      this.selectable = $set;
-    },
-    selectable_toggle: function() {
-      this.selectable = !this.selectable;
-    },
-    showChildren_toggle: function() {
-      this.showChildren = !this.showChildren;
-    },
-    select_toggle: function() {
-      if (this.selectable) {
-        this.selected = !this.selected;
-      }
-    }
-  }
+	name: "searchResults",
+	components: {
+		linkedResult
+	},
+	props: {
+		member: Object,
+		fullName: String,
+		personifyNumber: Number,
+		badgeNumber: { type: Number, default: -1 },
+		emailAddress: { type: String, default: "" },
+		location: String,
+		userName: String,
+		password: String,
+		memberType: { type: String, default: "NPI" },
+		iscienceBadge: { type: Number, default: -1 },
+		bruteForceLock: { type: Boolean, default: false },
+		expoBadge: { type: Boolean, default: false },
+		children: { type: Array, default: undefined }
+	},
+	computed: {
+		hasMembership: function() {
+			if (this.memberType != "" && this.memberType != "NPI") {
+				return true;
+			}
+			return false;
+		},
+		hasBadge: function() {
+			return this.badgeNumber == -1 ? false : true;
+		},
+		hasIScience: function() {
+			return this.iscienceBadge == -1 ? false : true;
+		},
+		hasBruteForceLock: function() {
+			return this.bruteForceLock;
+		},
+		hasExpoBadge: function() {
+			return this.expoBadge;
+		}
+	},
+	data() {
+		return {
+			selectable: false,
+			selected: true,
+			showChildren: false
+		};
+	},
+	methods: {
+		set_selectable: function($set) {
+			this.selectable = $set;
+		},
+		selectable_toggle: function() {
+			this.selectable = !this.selectable;
+		},
+		showChildren_toggle: function() {
+			this.showChildren = !this.showChildren;
+		},
+		select_toggle: function() {
+			if (this.selectable) {
+				this.selected = !this.selected;
+			}
+		}
+	}
 };
 </script>
 <style lang="scss">
 .slideIn-enter-active,
 .slideIn-leave-active {
-  transition: transform 0.5s ease, opacity 0.25s ease 0.25s;
+	transition: transform 0.5s ease, opacity 0.25s ease 0.25s;
 }
 .slideIn-enter, .slideIn-leave-to /* .slideIn-leave-active below version 2.1.8 */ {
-  transform: translateX(-100%);
-  opacity: 0;
+	transform: translateX(-100%);
+	opacity: 0;
 }
 .slideIn-enter-to {
-  transform: translateX(1);
-  opacity: 1;
+	transform: translateX(1);
+	opacity: 1;
 }
 .slideInDown-enter-active,
 .slideInDown-leave-active {
-  transition: transform 0.5s ease, opacity 0.25s ease 0.25s;
+	transition: transform 0.5s ease, opacity 0.25s ease 0.25s;
 }
 .slideInDown-enter, .slideInDown-leave-to /* .slideIn-leave-active below version 2.1.8 */ {
-  transform: translateY(-100%);
-  opacity: 0;
+	transform: translateY(-100%);
+	opacity: 0;
 }
 .slideInDown-enter-to {
-  transform: translateY(1);
-  opacity: 1;
+	transform: translateY(1);
+	opacity: 1;
 }
 .slideInDown-move {
-  transition: transform 0.5s ease;
+	transition: transform 0.5s ease;
 }
 
 .result {
-  display: flex;
-  flex-direction: row;
-  position: relative;
+	display: flex;
+	flex-direction: row;
+	position: relative;
 }
 
 .searchResults {
-  z-index: 100;
+	z-index: 100;
 }
 
 .select-container {
-  flex: 0 0 2.25rem;
-  padding: 0;
-  text-align: center;
-  max-width: 0;
-  transition: max-width 0.5s;
+	flex: 0 0 2.25rem;
+	padding: 0;
+	text-align: center;
+	max-width: 0;
+	transition: max-width 0.5s;
 }
 
 .selectable .select-container {
-  max-width: 200px;
+	max-width: 200px;
 }
 
 .detail-container {
-  flex: 1 1 auto;
+	flex: 1 1 auto;
 }
 
 .flag .active {
-  color: white;
+	color: white;
 }
 
 .flag .member.active {
-  background-color: #2e3192;
+	background-color: #2e3192;
 }
 
 .flag .accbadge.active {
-  background-color: #00a400;
+	background-color: #00a400;
 }
 
 .flag .iscience.active {
-  background-color: #6233c9;
+	background-color: #6233c9;
 }
 
 .flag .bruteforce.active {
-  background-color: #c70a0a;
+	background-color: #c70a0a;
 }
 
 .flag .expobadge.active {
-  background-color: #db6d12;
+	background-color: #db6d12;
 }
 
 .bounce-transition {
-  display: inline-block;
+	display: inline-block;
 }
 
 .bounce-enter {
-  width: 2rem;
-  animation: bounce-in 0.5s;
+	width: 2rem;
+	animation: bounce-in 0.5s;
 }
 
 .bounce-leave-to {
-  animation: bounce-out 0.5s;
+	animation: bounce-out 0.5s;
 }
 
 @keyframes bounce-in {
-  0% {
-    transform: translateX(0rem) scaleX(1);
-  }
+	0% {
+		transform: translateX(0rem) scaleX(1);
+	}
 
-  25% {
-    transform: translateX(0.25rem) scaleX(1.25);
-  }
+	25% {
+		transform: translateX(0.25rem) scaleX(1.25);
+	}
 
-  100% {
-    transform: translateX(-2rem) scaleX(0);
-  }
+	100% {
+		transform: translateX(-2rem) scaleX(0);
+	}
 }
 
 @keyframes bounce-out {
-  0% {
-    transform: translateX(0rem) scaleX(1);
-  }
+	0% {
+		transform: translateX(0rem) scaleX(1);
+	}
 
-  25% {
-    transform: translateX(0.25rem) scaleX(1.25);
-  }
+	25% {
+		transform: translateX(0.25rem) scaleX(1.25);
+	}
 
-  100% {
-    transform: translateX(-2rem) scaleX(0);
-  }
+	100% {
+		transform: translateX(-2rem) scaleX(0);
+	}
 }
 </style>

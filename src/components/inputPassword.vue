@@ -17,7 +17,7 @@
 					v-if="!passwordShow"
 					class="m-b_0"
 					type="password"
-					v-model="password"
+					v-model.lazy="password"
 					placeholder="password"
 					required
 					v-bind:class="{
@@ -41,22 +41,23 @@
 						'br_info-n1': inputState == 'info',
 						'br_success-n1': inputState == 'success'
                         }"
-					@change="onChange(password)"
+					v-bind:change="onChange(password)"
 				>
 			</div>
 
 			<button
 				v-if="password !=''"
 				type="button"
-				class="c_secondary-4 hover:c_black value-space cell shrink br_solid br-w_1 p_3 p-b_2 br_secondary-4 texture_light"
+				class="hover:c_black value-space cell shrink br_solid br-w_1 p_3 p-b_2 br_secondary-n2 c_secondary-n2 texture_light"
 				@click="resetPassword"
 			>
 				<i class="fas fa-times"></i>
 			</button>
-			
+
 			<button
 				type="button"
 				class="value-space cell shrink br_solid br-w_1 p_3 p-b_2 br_secondary-4 texture_light c_secondary-4 hover:c_black"
+				v-bind:class="{ 'br_secondary-n2 c_secondary-n2' : password != '','br_secondary-4 c_secondary-4' : password == '' }"
 				@click="passwordShowToggle"
 			>
 				<i v-if="passwordShow" class="fas fa-eye"></i>
@@ -90,6 +91,7 @@ export default {
 			stateMessage: ""
 		};
 	},
+	computed: {},
 	methods: {
 		passwordShowToggle() {
 			this.passwordShow = !this.passwordShow;
