@@ -66,7 +66,7 @@
 									</div>
 									<div class="cell auto lh_1">
 										<div class="c_secondary-3 font_n2 d_none d_inline-block:md">username</div>
-										<div class="c_secondary-n4 font_1 font_2:md m-t_3 m-t_0:md">{{userName}}</div>
+										<div class="c_secondary-n4 font_1 font_2:md m-t_3 m-t_0:md overflow-ellipsis">{{userName}}</div>
 									</div>
 
 									<div class="cell shrink">
