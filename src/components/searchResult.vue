@@ -1,7 +1,7 @@
 <template>
-	<div class="grid-y">
+	<div class="grid-y" style="z-index:-1">
 		<div
-			class="searchResults result card shadow_2 m_3 br_secondary-3"
+			class="searchResults result card shadow_1 br_radius m_3 br_secondary-4"
 			v-bind:class="{ 'selectable bg_warning-4 br_warning br_solid br_2': selectable }"
 		>
 			<div class="select-container bg_warning-n3" @click="select_toggle">
@@ -44,9 +44,9 @@
 							</div>
 						</div>
 						<div class>
-							<ul class="details no-bullet p-l_3 p-r_3 m-b_0 font_0 grid-x grid-margin-x m-t_3:lg">
+							<ul class="details no-bullet p-l_3 p-r_3 m-b_0 font_0 grid-x m-t_3:lg">
 								<li
-									class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6 d_block:sm d_none:md"
+									class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-l_0 p-b_0 p-b_2:md cell p-r_5:lg small-12 large-6 d_block:sm d_none:md"
 								>
 									<div class="grid-x grid-frame">
 										<div class="cell shrink">
@@ -67,7 +67,9 @@
 										</div>
 									</div>
 								</li>
-								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-r_0 cell small-12 large-6 grid-x">
+								<li
+									class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-l_0 p-b_0 p-b_2:md cell p-r_5:lg small-12 large-6 grid-x"
+								>
 									<itemDetail
 										:label="'username'"
 										:detailData="userName"
@@ -77,7 +79,9 @@
 									></itemDetail>
 								</li>
 
-								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-r_0 cell small-12 large-6 grid-x">
+								<li
+									class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-l_0 p-b_0 p-b_2:md cell p-r_5:lg small-12 large-6 grid-x"
+								>
 									<itemDetail
 										:label="'email'"
 										:detailData="emailAddress"
@@ -86,7 +90,9 @@
 										v-on:emitBasic="function(){$emit('open-email-reveal')}"
 									></itemDetail>
 								</li>
-								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-r_0 cell small-12 large-6 grid-x">
+								<li
+									class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-l_0 p-b_0 p-b_2:md cell p-r_5:lg small-12 large-6 grid-x"
+								>
 									<itemDetail
 										:label="'password'"
 										:detailData="password"
@@ -97,7 +103,9 @@
 									></itemDetail>
 								</li>
 
-								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6">
+								<li
+									class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-l_0 p-b_0 p-b_2:md cell p-r_5:lg small-12 large-6"
+								>
 									<itemDetail
 										:label="'address'"
 										:detailData="location"
@@ -105,13 +113,28 @@
 										:editable="false"
 									></itemDetail>
 								</li>
-								<li v-if="hasBadge" class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6">
+								<li
+									v-if="hasBadge"
+									class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-l_0 p-b_0 p-b_2:md cell p-r_5:lg small-12 large-6"
+								>
 									<itemDetail
 										:label="'badge'"
 										:detailData="badgeNumber.toString()"
 										:icon="'fa-badge-check'"
 										:editable="true"
 										v-on:emitBasic="function(){$emit('open-badge-reveal')}"
+									></itemDetail>
+								</li>
+								<li
+									v-if="accountLocked"
+									class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-l_0 p-b_0 p-b_2:md cell p-r_5:lg m-l_0 small-12 large-6"
+								>
+									<itemDetail
+										:label="'locked accout'"
+										:detailData="'Too Many Failed Attemtps'"
+										:icon="'fa-lock-alt'"
+										:editable="true"
+										v-on:emitBasic="function(){$emit('open-account-locked-reveal')}"
 									></itemDetail>
 								</li>
 							</ul>
@@ -148,13 +171,13 @@
 								<i class="fal fa-flask"></i>
 							</li>
 							<li
-								v-if="hasBruteForceLock"
-								class="p_3 center bruteforce active"
-								@click="$emit('open-bruteforce-reveal');"
+								v-if="hasaccountLocked"
+								class="p_3 center account-locked active"
+								@click="$emit('open-account-locked-reveal');"
 							>
 								<i class="fal fa-lock-alt"></i>
 							</li>
-							<li v-else class="p_3 center bruteforce">
+							<li v-else class="p_3 center account-locked">
 								<i class="fal fa-lock-alt"></i>
 							</li>
 							<li class="p_3 center expobadge" v-bind:class="{ active: hasExpoBadge }">
@@ -198,7 +221,7 @@ export default {
 		password: String,
 		memberType: { type: String, default: "NPI" },
 		iscienceBadge: { type: Number, default: -1 },
-		bruteForceLock: { type: Boolean, default: false },
+		accountLocked: { type: Boolean, default: false },
 		expoBadge: { type: Boolean, default: false },
 		children: { type: Array, default: undefined }
 	},
@@ -218,8 +241,8 @@ export default {
 		hasIScience: function() {
 			return this.iscienceBadge == -1 ? false : true;
 		},
-		hasBruteForceLock: function() {
-			return this.bruteForceLock;
+		hasaccountLocked: function() {
+			return this.accountLocked;
 		},
 		hasExpoBadge: function() {
 			return this.expoBadge;
@@ -331,7 +354,7 @@ export default {
 	background-color: #6233c9;
 }
 
-.flag .bruteforce.active {
+.flag .account-locked.active {
 	background-color: #c70a0a;
 }
 

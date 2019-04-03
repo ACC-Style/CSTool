@@ -1,5 +1,5 @@
 <template>
-	<div class="search texture_light" style="min-height:100vh;">
+	<div class="search texture_dust bg_secondary_5" style="min-height:100vh;">
 		<transition name="slideInDown">
 			<div
 				v-if="hasPageMessage"
@@ -13,7 +13,7 @@
 				</p>
 			</div>
 		</transition>
-		<div class="bg_white br_secondary-3 br_solid br-b-width_1 p_3 shadow_3" style="z-index=1;">
+		<div class="bg_white br_secondary-3 br_solid br-b-width_1 p_3 shadow_2" style="z-index:1;">
 			<form @submit.prevent="fireSearch(searchTerm)">
 				<div class="input-group m-b_0">
 					<input
@@ -44,7 +44,8 @@
 				v-bind:key="index"
 				v-on:open-email-reveal="openEmailReveal(member)"
 				v-on:open-username-reveal="openUserNameReveal(member)"
-				v-on:open-bruteforce-reveal="openBruteForceLockReveal(member)"
+				v-on:open-account-locked-reveal="openAccountLockedReveal(member)"
+				v-on:open-badge-reveal="openBadgeReveal(member)"
 				v-on:open-password-reveal="openPasswordReveal(member)"
 				v-on:share-record="setSharedRecord(member)"
 				v-on:breakLinkRepeater="breakLinkData(member,$event.child)"
@@ -67,7 +68,7 @@
 							type="email"
 							placeholder="youremail@email.com"
 							style="height:unset;"
-							:value="editEmailAddress"
+							v-model="editEmailAddress"
 						>
 						<div class="input-group-button" v-if="editEmailAddress !=''">
 							<button
@@ -113,7 +114,7 @@
 							type="email"
 							style="height:unset"
 							placeholder="youremail@email.com"
-							:value="editUserName"
+							v-model="editUserName"
 						>
 						<div class="input-group-button" v-if="editUserName !=''">
 							<button
@@ -146,14 +147,58 @@
 				</div>
 			</div>
 		</reveal>
-		<reveal ref="bruteForce">
+		<reveal ref="badgeReveal">
+			<h3 slot="header" class="p-t_4">Edit Badge</h3>
+			<div slot="content">
+				<div class>
+					<div class="input-group m-b_4 font_0">
+						<span class="input-group-label p-l_3 p-r_3">
+							<i class="fal fa-badge-check"></i>
+						</span>
+						<input
+							class="input-group-field font_1"
+							type="number"
+							style="height:unset"
+							v-model="editBadgeNumber"
+						>
+						<div class="input-group-button" v-if="editBadgeNumber !=''">
+							<button
+								type="submit"
+								class="button secondaryalt hollow p-l_3 p-r_3"
+								@click="editBadgeNumber=''"
+							>
+								<i class="fas fa-times"></i>
+							</button>
+						</div>
+						<div class="input-group-button">
+							<button
+								type="submit"
+								class="button"
+								v-bind:disabled="editBadgeNumber==''"
+								@click="changeBadgeNumber(editBadgeNumber)"
+							>Save</button>
+						</div>
+					</div>
+				</div>
+				<div class>
+					<div class="padding-t_2">
+						<button
+							class="button secondary expanded small m-b_0"
+							data-close
+							aria-label="Close modal"
+						>Cancel</button>
+					</div>
+				</div>
+			</div>
+		</reveal>
+		<reveal ref="AcountLocked">
 			<h3 slot="header">Unlock User?</h3>
 			<div slot="content">
 				<p class="color_primary font_2">{{memberEdit.fullName}}</p>
 				<p class="font_1">Do you want to remove the brute force lock from user?</p>
 				<div class="grid-x grid-center grid-m-x">
 					<div class="cell auto">
-						<a @click="removeBruteForceLock()" class="button primary expanded color_whtie">Yes</a>
+						<a @click="removeAcountLockedLock()" class="button primary expanded color_whtie">Yes</a>
 					</div>
 					<div class="cell auto">
 						<a href class="button secondary expanded hollow" data-close aria-label="Close modal">No</a>
@@ -277,6 +322,23 @@ export default {
 			this.setMemberEdit(member);
 			this.$refs.emailReveal.openReveal();
 		},
+		openBadgeReveal: function(member) {
+			this.setMemberEdit(member);
+			this.$refs.badgeReveal.openReveal();
+		},
+		changeBadgeNumber: function(val) {
+			this.memberEdit.badgeNumber = Number.parseInt(val);
+			this.REPLACE_MEMBER_DATA(this.memberEdit);
+			this.firePageMessage(
+				"success",
+				"Badge of " +
+					this.memberEdit.badgeNumber +
+					"has been saved to " +
+					this.memberEdit.fullName
+			);
+
+			this.$refs.badgeReveal.closeReveal();
+		},
 		changeEmail: function(val) {
 			this.memberEdit.emailAddress = val;
 			this.REPLACE_MEMBER_DATA(this.memberEdit);
@@ -319,14 +381,14 @@ export default {
 			);
 			this.$refs.userName.closeReveal();
 		},
-		openBruteForceLockReveal: function(member) {
+		openAccountLockedReveal: function(member) {
 			this.setMemberEdit(member);
-			this.$refs.bruteForce.openReveal();
+			this.$refs.AcountLocked.openReveal();
 		},
-		removeBruteForceLock: function() {
-			this.memberEdit.bruteForceLock = false;
+		removeAcountLockedLock: function() {
+			this.memberEdit.AcountLockedLock = false;
 			this.REPLACE_MEMBER_DATA(this.memberEdit);
-			this.$refs.bruteForce.closeReveal();
+			this.$refs.AcountLocked.closeReveal();
 			this.firePageMessage(
 				"success",
 				"Brute force lockout has been removed from the account of " +
@@ -347,6 +409,7 @@ export default {
 			this.editUserName = member.userName;
 			this.editPassword = member.password;
 			this.editEmailAddress = member.emailAddress;
+			this.editBadgeNumber = member.badgeNumber;
 		},
 		setSharedRecord: function(member) {
 			this.SET_SINGLE_RESULT(member);
@@ -372,6 +435,7 @@ export default {
 			editEmailAddress: "",
 			editUserName: "",
 			editPassword: "",
+			editBadgeNumber: "",
 			memberEdit: {},
 			searchTerm:
 				this.$route.query.q !== undefined ? this.$route.query.q : "",
