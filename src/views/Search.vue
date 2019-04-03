@@ -54,18 +54,19 @@
 			:paginator="{currentPage:currentPage, maxPages:maxPages, listSize:paginatorListSize}"
 			class="m-r_3 m-l_3"
 		></pagination>
-		<reveal ref="emailReveal">
-			<h3 slot="header">Edit Email</h3>
+		<reveal ref="emailReveal" class="small">
+			<h3 slot="header" class="p-t_4">Edit Email</h3>
 			<div slot="content">
 				<div class>
-					<div class="input-group m-b_4">
-						<span class="input-group-label p-l_3 p-r_3">
-							<i class="fas fa-at"></i>
+					<div class="input-group m-b_4 font_1">
+						<span class="input-group-label p-l_3 p-r_3 font_0">
+							<i class="fal fa-at"></i>
 						</span>
 						<input
 							class="input-group-field"
 							type="email"
 							placeholder="youremail@email.com"
+							style="height:unset;"
 							:value="editEmailAddress"
 						>
 						<div class="input-group-button" v-if="editEmailAddress !=''">
@@ -87,56 +88,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="grid-x br-t-width_1 br_dashed br_primary padding-t_4">
-					<div class="cell small-4">
-						<a
-							@click="editEmailAddress = editEmailAddress +'@gmail.com'"
-							class="button small expanded secondaryalt m-b_0"
-						>
-							<i class="fal fa-at"></i>gmail.com
-						</a>
-					</div>
-					<div class="cell small-4">
-						<a
-							@click="editEmailAddress = editEmailAddress +'@hotmail.com'"
-							class="button small expanded secondaryalt m-b_0"
-						>
-							<i class="fal fa-at"></i>hotmail.com
-						</a>
-					</div>
-					<div class="cell small-4">
-						<a
-							@click="editEmailAddress = editEmailAddress +'@yahoo.com'"
-							class="button small expanded secondaryalt m-b_0"
-						>
-							<i class="fal fa-at"></i>yahoo.com
-						</a>
-					</div>
-					<div class="cell small-4">
-						<a
-							@click="editEmailAddress = editEmailAddress +'@mail.com'"
-							class="button small expanded secondaryalt m-b_0"
-						>
-							<i class="fal fa-at"></i>mail.com
-						</a>
-					</div>
-					<div class="cell small-4">
-						<a
-							@click="editEmailAddress = editEmailAddress +'@outlook.com'"
-							class="button small expanded secondaryalt m-b_0"
-						>
-							<i class="fal fa-at"></i>outlook.com
-						</a>
-					</div>
-					<div class="cell small-4">
-						<a
-							@click="editEmailAddress = editEmailAddress +'@aol.com'"
-							class="button small expanded secondaryalt m-b_0"
-						>
-							<i class="fal fa-at"></i>aol.com
-						</a>
-					</div>
-				</div>
+				<emailPostpend v-on:email-postpend="constructEmail($event)"></emailPostpend>
 				<div class>
 					<div class="padding-t_2">
 						<button
@@ -149,16 +101,17 @@
 			</div>
 		</reveal>
 		<reveal ref="userName">
-			<h3 slot="header">Edit UserName</h3>
+			<h3 slot="header" class="p-t_4">Edit UserName</h3>
 			<div slot="content">
 				<div class>
-					<div class="input-group m-b_4">
+					<div class="input-group m-b_4 font_0">
 						<span class="input-group-label p-l_3 p-r_3">
 							<i class="fal fa-user-circle"></i>
 						</span>
 						<input
-							class="input-group-field"
+							class="input-group-field font_1"
 							type="email"
+							style="height:unset"
 							placeholder="youremail@email.com"
 							:value="editUserName"
 						>
@@ -181,56 +134,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="grid-x br-t-width_1 br_dashed br_primary padding-t_4">
-					<div class="cell small-4">
-						<a
-							@click="editUserName = editUserName +'@gmail.com'"
-							class="button small expanded secondaryalt m-b_0"
-						>
-							<i class="fal fa-at"></i>gmail.com
-						</a>
-					</div>
-					<div class="cell small-4">
-						<a
-							@click="editUserName = editUserName +'@hotmail.com'"
-							class="button small expanded secondaryalt m-b_0"
-						>
-							<i class="fal fa-at"></i>hotmail.com
-						</a>
-					</div>
-					<div class="cell small-4">
-						<a
-							@click="editUserName = editUserName +'@yahoo.com'"
-							class="button small expanded secondaryalt m-b_0"
-						>
-							<i class="fal fa-at"></i>yahoo.com
-						</a>
-					</div>
-					<div class="cell small-4">
-						<a
-							@click="editUserName = editUserName +'@mail.com'"
-							class="button small expanded secondaryalt m-b_0"
-						>
-							<i class="fal fa-at"></i>mail.com
-						</a>
-					</div>
-					<div class="cell small-4">
-						<a
-							@click="editUserName = editUserName +'@outlook.com'"
-							class="button small expanded secondaryalt m-b_0"
-						>
-							<i class="fal fa-at"></i>outlook.com
-						</a>
-					</div>
-					<div class="cell small-4">
-						<a
-							@click="editUserName = editUserName +'@aol.com'"
-							class="button small expanded secondaryalt m-b_0"
-						>
-							<i class="fal fa-at"></i>aol.com
-						</a>
-					</div>
-				</div>
+				<emailPostpend v-on:email-postpend="constructUsername($event)"></emailPostpend>
 				<div class>
 					<div class="padding-t_2">
 						<button
@@ -305,6 +209,7 @@
 import searchResult from "@/components/searchResult.vue";
 import reveal from "@/components/Reveal.vue";
 import pagination from "@/components/pagination.vue";
+import emailPostpend from "@/components/subComponents/emailPostpend.vue";
 import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
@@ -312,7 +217,8 @@ export default {
 	components: {
 		searchResult,
 		reveal,
-		pagination
+		pagination,
+		emailPostpend
 	},
 	computed: {
 		...mapState([
@@ -338,6 +244,12 @@ export default {
 		fireSearch: function(val) {
 			this.runSearch(val);
 			this.saveSearchHistory(val);
+		},
+		constructEmail: function(postpend) {
+			this.editEmailAddress = this.editEmailAddress + postpend;
+		},
+		constructUsername: function(postpend) {
+			this.editUserName = this.editUserName + postpend;
 		},
 		saveSearchHistory: function(val) {
 			if (this.resultsOnPage.length > 0)
@@ -370,7 +282,10 @@ export default {
 			this.REPLACE_MEMBER_DATA(this.memberEdit);
 			this.firePageMessage(
 				"success",
-				"Email of " + this.memberEdit.fullName + "has been saved"
+				"Email of " +
+					this.memberEdit.fullName +
+					"has been saved to " +
+					this.memberEdit.emailAddress
 			);
 
 			this.$refs.emailReveal.closeReveal();
@@ -397,7 +312,10 @@ export default {
 			this.replaceMemberData(this.memberEdit);
 			this.firePageMessage(
 				"success",
-				"UserName of " + this.memberEdit.fullName + "has been saved"
+				"UserName of " +
+					this.memberEdit.fullName +
+					"has been saved" +
+					this.memberEdit.userName
 			);
 			this.$refs.userName.closeReveal();
 		},
@@ -455,7 +373,8 @@ export default {
 			editUserName: "",
 			editPassword: "",
 			memberEdit: {},
-			searchTerm: this.$route.query.q !== undefined ? this.$route.query.q : "",
+			searchTerm:
+				this.$route.query.q !== undefined ? this.$route.query.q : "",
 			hasPageMessage: false,
 			pageMessageType: "message",
 			pageMessage: "",

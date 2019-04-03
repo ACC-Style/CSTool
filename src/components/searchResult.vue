@@ -53,14 +53,14 @@
 											<itemDetail
 												:label="'member'"
 												:detailData="memberTypeComputed"
-												:icon="{'fa-user-md':hasMembership,'fa-user-slash':!hasMembership}"
+												:icon="memberIconComputed"
 												:editable="false"
 											></itemDetail>
 										</div>
 										<div class="cell shrink p-r_3">
 											<itemDetail
 												:label="'personify id'"
-												:detailData="personifyNumber"
+												:detailData="personifyNumber.toString()"
 												:icon="'fa-hashtag'"
 												:editable="false"
 											></itemDetail>
@@ -85,23 +85,6 @@
 										:editable="true"
 										v-on:emitBasic="function(){$emit('open-email-reveal')}"
 									></itemDetail>
-									<!-- <div class="cell shrink p_1 p-t_2">
-										<i class="m-l_3 m-r_3 c_secondary-2 fal fa-envelope-open-text font_4:md font_2"></i>
-									</div>
-									<div class="cell auto lh_1">
-										<div class="c_secondary-3 font_n2 d_none d_inline-block:md">email</div>
-										<div class="c_secondary-n4 font_1 font_2:md m-t_3 m-t_0:md overflow-ellipsis">
-											{{emailAddress}}
-											<span class="c_alert" v-if="emailAddress == ''">
-												<i class="fas fa-exclamation-square"></i> account must have an email
-											</span>
-										</div>
-									</div>
-									<div class="cell shrink">
-										<a @click="$emit('open-email-reveal')" class="link p-t_2 p-r_3 p_1 font_1 font_3:md">
-											<i class="fal fa-pencil"></i>
-										</a>
-									</div>-->
 								</li>
 								<li class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-r_0 cell small-12 large-6 grid-x">
 									<itemDetail
@@ -125,7 +108,7 @@
 								<li v-if="hasBadge" class="br-b_1 br_0 br_secondary-5 br_solid p_2 cell small-12 large-6">
 									<itemDetail
 										:label="'badge'"
-										:detailData="badgeNumber"
+										:detailData="badgeNumber.toString()"
 										:icon="'fa-badge-check'"
 										:editable="true"
 										v-on:emitBasic="function(){$emit('open-badge-reveal')}"
@@ -185,8 +168,8 @@
 
 		<transition-group name="slideInDown" tag="div">
 			<linkedResult
-				v-if="showChildren"
 				v-for="(child, index) in children"
+				v-if="showChildren"
 				v-bind="child"
 				v-on:breaklink="$emit('breakLinkRepeater',{child:child})"
 				v-bind:key="index"
@@ -220,6 +203,9 @@ export default {
 		children: { type: Array, default: undefined }
 	},
 	computed: {
+		memberIconComputed: function() {
+			return this.hasMembership ? "fa-user-md" : "fa-user-slash";
+		},
 		hasMembership: function() {
 			if (this.memberType != "" && this.memberType != "NPI") {
 				return true;
