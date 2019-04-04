@@ -92,6 +92,7 @@
 								</li>
 								<li
 									class="br-b_1 br_0 br_secondary-5 br_solid p_2 p-l_0 p-b_0 p-b_2:md cell p-r_5:lg small-12 large-6 grid-x"
+									v-if="password!='******'"
 								>
 									<itemDetail
 										:label="'password'"
