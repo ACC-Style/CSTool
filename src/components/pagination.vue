@@ -1,6 +1,6 @@
 <template>
 	<nav aria-label="Pagination" class="br_solid br_primary br-t_3 br_0">
-		<ul class="pagination font_display font_bold float-r">
+		<ul class="pagination font_display font_bold float-right">
 			<li class="pagination-previous disabled">
 				<i class="fas fa-chevron-left"></i>
 				<span class="show-for-sr">page</span>
